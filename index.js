@@ -394,38 +394,27 @@ app.get("/movies/:title", async function (request, response) {
 });
 
 app.put("/movies/:title",express.json(), async function (request, response) {
-  const { title } = request.params;
-  const data = request.body;
-  console.log(data);
-  console.log(title);
-  const finData = await client
-    .db("IMDB")
-    .collection("designDB")
-    .updateOne({ title: title }, { $set:  data });
-  {
-    finData
-      ? response.send({ message: "successfully updated" })
-      : response
-          .status(404)
-          .send({ message: "Try first letter caps or movie not exist" });
-  }
-});
+     const { title } = request.params;   
+     const data = request.body;  
+      console.log(data);   
+      console.log(title);   
+      const finData = await client
+           .db("IMDB")     
+           .collection("designDB")     
+           .updateOne({ title: title }, { $set:  data });   
+           {finData  ? response.send({ message: "successfully updated" }): response.status(404)
+           .send({ message: "Try first letter caps or movie not exist" });   } });  
 
-app.get("/movies/:title/review", async function (request, response) {
-  const { title } = request.params;
-  // console.log(title);
-  const finData = await client
-    .db("IMDB")
-    .collection("designDB")
-    .findOne({ title : title },{rating : 1,trailer : 1});
-  {
-    finData
-      ? response.send(finData)
-      : response
-          .status(404)
-          .send({ message: "Try first letter caps or movie not exist" });
-  }
-});
+
+ app.get("/movies/:title/review", async function (request, response) {   
+     const { title } = request.params; 
+     console.log(title);   
+           const finData = await client     
+           .db("IMDB")     
+           .collection("designDB")     
+           .findOne({ title : title },{rating : 1,trailer : 1});   
+           {finData ? response.send(finData): response.status(404)
+            .send({ message: "Try first letter caps or movie not exist" });   } });
 
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
